@@ -1,0 +1,28 @@
+{
+  "name": "eslint-plugin-sift",
+  "version": "0.0.0",
+  "description": "Custom ESLint Rules for Sift Science",
+  "keywords": [
+    "eslint",
+    "eslintplugin",
+    "eslint-plugin"
+  ],
+  "author": "Noah Grant",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "mocha tests --recursive"
+  },
+  "dependencies": {
+    "espree": "^3.5.1",
+    "esutils": "^2.0.2",
+    "requireindex": "~1.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.10.0",
+    "mocha": "^3.1.2"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "license": "ISC"
+}
