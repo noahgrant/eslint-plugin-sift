@@ -129,6 +129,33 @@ This plugin includes slight variations on three existing [ESLint](https://eslint
     This follows some [lengy discussions](https://github.com/eslint/eslint/issues/3587) that ended up with this not being implemented in ESLint.
     
     ([original rule](https://eslint.org/docs/rules/space-infix-ops))
+    
+* [jsx-handler-names](https://github.com/noahgrant/eslint-plugin-sift/blob/master/lib/rules/jsx-handler-names.js):
+
+    The original rule allowed for any prop with the configured prefix (default `on`) to have a function prop that also started with `on`, which led to some undesirable linting errors for unreserved React events:
+    
+    ```js
+    // error!!
+    <Child onPaginate={this.changePage} />
+    ```
+
+    These kinds of errors are troublesome because they require you to go up and down the component chain to change values for our made-up props. Our version of this rule only checks for _reserved_ React events:
+    
+    ```js
+    // nobody cares
+    <Child onPaginate={this.changePage} />
+    
+    // error!
+    <Child onClick={this.clickChangePage} />
+    
+    // all good
+    <Child onClick={this.onClickChangePage} />
+    <Child onClick={this.props.onClickChangePage} />
+    ``` 
+   
+   This rule only takes one option, `eventHandlerPrefix`, which defaults to `on`, and governs prefixes for both component instance methods as well as component prop methods, which are both within the control of _that_ component.
+    
+    ([original rule](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-handler-names.md))
 
 
 ## Adding a New Rule
