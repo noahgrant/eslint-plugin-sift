@@ -20,6 +20,7 @@ const LEFT_MISSING_ERROR = { message: "Expected a newline after '('.", type: "Pu
 const LEFT_UNEXPECTED_ERROR = { message: "Unexpected newline after '('.", type: "Punctuator" };
 const RIGHT_MISSING_ERROR = { message: "Expected a newline before ')'.", type: "Punctuator" };
 const RIGHT_UNEXPECTED_ERROR = { message: "Unexpected newline before ')'.", type: "Punctuator" };
+const NEWLINE_PARAM_ERROR = { message: "Expected a newline after parameter of multiline functions.", type: "Identifier" };
 
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
 
@@ -356,6 +357,36 @@ ruleTester.run("function-paren-newline", rule, {
                 function baz(foo, bar) {}
             `,
             errors: [LEFT_UNEXPECTED_ERROR, RIGHT_UNEXPECTED_ERROR]
+        },
+        {
+            code: `
+                function baz(
+                    foo, bar,
+                    baz
+                ) {}
+            `,
+            output: `
+                function baz(
+                    foo,\n bar,
+                    baz
+                ) {}
+            `,
+            errors: [NEWLINE_PARAM_ERROR]
+        },
+        {
+            code: `
+                function baz(
+                    foo, bar, baz,
+                    quux
+                ) {}
+            `,
+            output: `
+                function baz(
+                    foo,\n bar,\n baz,
+                    quux
+                ) {}
+            `,
+            errors: [NEWLINE_PARAM_ERROR, NEWLINE_PARAM_ERROR]
         },
         {
             code: `
